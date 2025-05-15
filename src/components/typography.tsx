@@ -7,7 +7,7 @@ export const Para = (props:TextProps)=>{
 
 
 export const Heading = (props:TextProps)=>{
-    return <Text {...props} style={[{color:COLORS.HEADING}, props?.style]}></Text>
+    return <Text {...props} style={[{color:COLORS.HEADING, fontWeight:"bold", fontSize:20}, props?.style]}></Text>
 }
 
 

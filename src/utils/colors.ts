@@ -7,7 +7,9 @@ export const COLORS = {
     "TEXT":"#2c3e50",
     "HEADING":"#17202a",
     "BLUE":"blue",
-    "DANGER":"red"
+    "DANGER":"red",
+    "BORDER":"grey",
+    "SUCCESS":"green"
 }
 
 export const SCREEN_HEIGHT = Dimensions.get('screen').height
