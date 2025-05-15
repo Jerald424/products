@@ -3,7 +3,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios"
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-simple-toast';
 
 const getProduct = async({id})=>{
     const response = await axios.get(`https://fakestoreapi.com/products/${id}`)
@@ -75,10 +75,7 @@ export default function useProductDetail(){
     const formOnSubmit = (data)=>{
        createUpdateProductMutate({data}, {
         onSuccess(){
- Toast.show({
-                type:"success",
-                text1:`Product ${pData?.type == 'update' ? "updated" : "created" } successfully`
-            });
+ Toast.show(`Product ${pData?.type == 'update' ? "updated" : "created" } successfully`, 10);
             navigation.goBack();
         },
         onError(){

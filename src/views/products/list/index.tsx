@@ -1,25 +1,24 @@
-import Container, { Button } from "../../../components/container";
-import React from 'react';
-import useList from "./useList";
-import { Para, SubHeading } from "../../../components/typography";
-import { FlatList, RefreshControl, View } from "react-native";
-import NoData from "../../../components/noData";
-import { COLORS, SCREEN_HEIGHT } from "../../../utils/colors";
-import { amountFormat } from "../../../functions/dataHandle";
 import { useNavigation } from "@react-navigation/native";
+import React from 'react';
+import { FlatList, RefreshControl, View } from "react-native";
+import Container, { Button } from "../../../components/container";
 import { ConfirmationModal } from "../../../components/model";
-import showToast from "../../../functions/showToast";
-import Toast from "react-native-toast-message";
+import NoData from "../../../components/noData";
+import { Para, SubHeading } from "../../../components/typography";
+import { amountFormat } from "../../../functions/dataHandle";
+import { COLORS, SCREEN_HEIGHT } from "../../../utils/colors";
+import useList from "./useList";
 
 export default function ProductList(){
     const {data, error, isPending, refetch, isLoadingDelete, isSelected, onDelete, setIsSelected} =  useList();
+    console.log('isSelected: ', isSelected);
     const navigation = useNavigation();
     
     return <Container>
       <FlatList
-      refreshControl={<RefreshControl onRefresh={refetch} refreshing={isPending} />}
+      refreshControl={<RefreshControl onRefresh={refetch} refreshing={isPending || isLoadingDelete} />}
         data={data?.data}
-        ListEmptyComponent={isPending ? <View></View> : <NoData {...error && {msg:JSON.stringify(error)}} style={{height:SCREEN_HEIGHT / 2}} />}
+        ListEmptyComponent={isPending ? <View></View> : <NoData {...error && {msg:"Something went wrong!. Refresh.."}} style={{height:SCREEN_HEIGHT / 2}} />}
         renderItem={({item})=>{
             return <View style={{backgroundColor:COLORS.CARD, padding:10, marginBottom:10}}>
                 <SubHeading style={{borderBottomWidth:1, borderColor:COLORS.BACKGROUND, paddingBottom:5}}>{item?.title}</SubHeading>
@@ -37,6 +36,5 @@ export default function ProductList(){
       <ConfirmationModal isVisible={!!isSelected} description="Do you want to delete product." yesButtonProps={{
         onPress:onDelete
       }} noButtonProps={{onPress:()=>setIsSelected(false)}} />
-    
     </Container>
 }

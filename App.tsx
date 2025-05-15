@@ -1,25 +1,21 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import ProductList from './src/views/products/list';
 import { StatusBar } from 'react-native';
 import { COLORS } from './src/utils/colors';
 import ProductDetail from './src/views/products/detail';
-import {QueryClientProvider, QueryClient} from '@tanstack/react-query';
-import { getToastConfig } from './src/utils/toastConfig';
-import Toast from 'react-native-toast-message';
+import ProductList from './src/views/products/list';
 
 const Stack= createStackNavigator();
 const queryClient = new QueryClient();
 
 export default function App(){
-  let config = getToastConfig();
 
   return  <>
   <StatusBar backgroundColor={COLORS.PRIMARY} />
   <QueryClientProvider client={queryClient}>
   <NavigationContainer >
-<Toast config={config} />
 
     <Stack.Navigator screenOptions={{
       headerStyle:{backgroundColor:COLORS.PRIMARY},
