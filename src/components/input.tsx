@@ -3,12 +3,12 @@ import { Para, SubHeading } from "./typography";
 import { COLORS } from "../utils/colors";
 
 export interface InputBoxProps extends TextInputProps {
-    label:String;
+    label?:String;
     isReadOnly?:boolean
 }
 export default function InputBox(props:InputBoxProps){
     return <View >
-        <Para>{props?.label}</Para>
+        {props?.label &&<Para>{props?.label}</Para>}
         {
             props?.isReadOnly ? <SubHeading>{props?.value}</SubHeading>
             :

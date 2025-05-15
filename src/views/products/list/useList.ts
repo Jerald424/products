@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios"
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Toast from 'react-native-simple-toast';
+import { checkValueAreIncludes } from "../../../functions/dataHandle";
 
 
 const fetchProducts =async ()=>{
@@ -15,6 +16,7 @@ const deleteProduct = async({id})=>{
 }
 
 export default function useList(){
+    const [search, setSearch] = useState('');
     const [isSelected, setIsSelected] = useState();
 
     const {data, isPending,refetch  ,error} = useQuery({queryKey:['get/products'], queryFn:fetchProducts});
@@ -37,5 +39,14 @@ export default function useList(){
         })
     }
 
-    return {data, isPending, error, refetch, isSelected, setIsSelected,onDelete, isLoadingDelete }
+    const filteredValue = useMemo(()=>{
+        try {
+            if(!search) return data?.data;
+            else return data?.data?.filter((res)=>checkValueAreIncludes({searched:search, txt:res?.title})|| checkValueAreIncludes({searched:search, txt:res?.price}) || checkValueAreIncludes({searched:search, txt:res?.category}))
+        } catch (error) {
+            console.error(error)
+        }
+    },[search, data]);
+
+    return {filteredValue, isPending, error, refetch, isSelected, setIsSelected,onDelete, isLoadingDelete, search, setSearch }
 }

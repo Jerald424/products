@@ -8,16 +8,17 @@ import { Para, SubHeading } from "../../../components/typography";
 import { amountFormat } from "../../../functions/dataHandle";
 import { COLORS, SCREEN_HEIGHT } from "../../../utils/colors";
 import useList from "./useList";
+import InputBox from "../../../components/input";
 
 export default function ProductList(){
-    const {data, error, isPending, refetch, isLoadingDelete, isSelected, onDelete, setIsSelected} =  useList();
-    console.log('isSelected: ', isSelected);
+    const {filteredValue, error, isPending, refetch, isLoadingDelete, isSelected, onDelete, setIsSelected, search, setSearch} =  useList();
     const navigation = useNavigation();
     
     return <Container>
+      <InputBox style={{margin:10}} onChangeText={setSearch} value={search} placeholder="Search by Title, Price, Category" />
       <FlatList
       refreshControl={<RefreshControl onRefresh={refetch} refreshing={isPending || isLoadingDelete} />}
-        data={data?.data}
+        data={filteredValue}
         ListEmptyComponent={isPending ? <View></View> : <NoData {...error && {msg:"Something went wrong!. Refresh.."}} style={{height:SCREEN_HEIGHT / 2}} />}
         renderItem={({item})=>{
             return <View style={{backgroundColor:COLORS.CARD, padding:10, marginBottom:10}}>
